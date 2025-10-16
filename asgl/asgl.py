@@ -320,18 +320,19 @@ class ASGL:
                     solver_dict = self._cvxpy_solver_options(solver=self.solver)
                     problem.solve(**solver_dict)
             except (ValueError, cvxpy.error.SolverError):
-                logging.warning(
-                    'Default solver failed. Using alternative options. Check solver and solver_stats for more '
-                    'details')
-                solver = ['ECOS', 'OSQP', 'SCS']
-                for elt in solver:
-                    solver_dict = self._cvxpy_solver_options(solver=elt)
-                    try:
-                        problem.solve(**solver_dict)
-                        if 'optimal' in problem.status:
-                            break
-                    except (ValueError, cvxpy.error.SolverError):
-                        continue
+                logging.warning('Default solver failed')
+                # logging.warning(
+                #     'Default solver failed. Using alternative options. Check solver and solver_stats for more '
+                #     'details')
+                # solver = ['ECOS', 'OSQP', 'SCS']
+                # for elt in solver:
+                #     solver_dict = self._cvxpy_solver_options(solver=elt)
+                #     try:
+                #         problem.solve(**solver_dict)
+                #         if 'optimal' in problem.status:
+                #             break
+                #     except (ValueError, cvxpy.error.SolverError):
+                #         continue
             self.solver_stats = problem.solver_stats
             if problem.status in ["infeasible", "unbounded"]:
                 logging.warning('Optimization problem status failure')
